@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+      "ios": true,
+      "android": true,
+      "linux": true,
+      "test": true,
+      "macos": true,
+      "web": true,
+      "windows" : true,
+      "build": true,
+      ".idea": true,
+
+  }
+}

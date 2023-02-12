@@ -63,7 +63,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/fonts/sen
+    - assets/fonts/sen/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -83,7 +83,7 @@ flutter:
         - asset: assets/fonts/sen/Sen-Bold.ttf
         - asset: assets/fonts/sen/Sen-ExtraBold.ttf
         - asset: assets/fonts/sen/Sen-Regular.ttf
-        # - weight: 700
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
