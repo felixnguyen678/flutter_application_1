@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/constants/app_fonts.dart';
-import 'package:flutter_application_1/constants/app_ui.dart';
+import 'package:flutter_application_1/screens/landing_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -13,30 +14,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // body: Container(
-      //   child: Image.asset(AppUI.img_meo),
-      // ),
-      body: Center(child: Text('hello world', 
-      style: GoogleFonts.abel(
-      textStyle: TextStyle(color: Colors.blue, fontSize: 40),
-  ),
-       ))
+      home: const LandingScreen(),
     );
   }
 }

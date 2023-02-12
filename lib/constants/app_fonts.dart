@@ -1,3 +1,6 @@
-class AppFonts {
-  static final String babylonica  = 'Babylonica';
+/**
+ * Define font family
+ */
+class FontFamily {
+  static final sen = 'Sen';
 }
