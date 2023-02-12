@@ -55,17 +55,20 @@ class LandingScreen extends StatelessWidget {
               ),
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 64),
-                    child: RawMaterialButton(
-                      onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),))
-                      },
-                      fillColor: AppColors.lighBlue,
-                      shape: CircleBorder(),
-                      child: Image.asset(AppAssets.rightArrow), 
-                    ),
-                  )
-              ) 
+                padding: const EdgeInsets.only(bottom: 64),
+                child: RawMaterialButton(
+                  onPressed: () => {
+                    // push but cannot back
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        (route) => false)
+                  },
+                  fillColor: AppColors.lighBlue,
+                  shape: CircleBorder(),
+                  child: Image.asset(AppAssets.rightArrow),
+                ),
+              ))
             ],
           ),
         ));
