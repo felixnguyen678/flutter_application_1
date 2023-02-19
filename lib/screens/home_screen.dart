@@ -7,6 +7,9 @@ import 'package:flutter_application_1/constants/app_fonts.dart';
 import 'package:flutter_application_1/constants/app_styles.dart';
 import 'package:flutter_application_1/elements/slider_indicator.dart';
 
+
+const int NUMBER_OF_SLIDER = 10;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -16,7 +19,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  PageController _pageController = PageController();
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    _pageController = PageController(viewportFraction: .85);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         leading: InkWell(onTap: () {}, child: Image.asset(AppAssets.menu)),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(children: [
           Container(
@@ -48,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 12,
                 )),
           ),
-          Container(
+          SizedBox(
               height: size.height * 2 / 3,
               child: PageView.builder(
                   controller: _pageController,
@@ -57,15 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       _currentIndex = value;
                     });
                   },
-                  itemCount: 10,
+                  itemCount: NUMBER_OF_SLIDER,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: const BoxDecoration(
                           color: AppColors.primaryColor,
                           borderRadius: BorderRadius.all(Radius.circular(24))),
-                          
                       padding: const EdgeInsets.all(16),
-                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      margin: EdgeInsets.only(
+                        left: index > 0 ? 10 : 0,
+                        right: index < NUMBER_OF_SLIDER - 1 ? 10 : 0
+                      ),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -117,19 +129,19 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
               padding: EdgeInsets.only(
                 left: 12,
-                right: size.width /5,
+                right: size.width / 5,
               ),
               margin: const EdgeInsets.only(top: 12),
-              child: 
-              ListView.builder(
+              child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 10, 
+                itemCount: NUMBER_OF_SLIDER,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return SliderIndicator(isActive: index == _currentIndex, size: size);
-                }, 
+                  return SliderIndicator(
+                      isActive: index == _currentIndex, size: size);
+                },
               )
-                // Container(color: Colors.red,)
+              // Container(color: Colors.red,)
               )
         ]),
       ),
