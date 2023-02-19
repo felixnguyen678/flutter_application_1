@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ),
           Container(
-              padding: EdgeInsets.all(24),
               height: size.height * 2 / 3,
               child: PageView.builder(
                   controller: _pageController,
@@ -64,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: const BoxDecoration(
                           color: AppColors.primaryColor,
                           borderRadius: BorderRadius.all(Radius.circular(24))),
+                          
                       padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -113,10 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   })),
           Container(
-              height: 22,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                ),
+              height: 20,
+              padding: EdgeInsets.only(
+                left: 12,
+                right: size.width /5,
+              ),
+              margin: const EdgeInsets.only(top: 12),
               child: 
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
