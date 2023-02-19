@@ -1,6 +1,4 @@
-/**
- * Define font family
- */
+/// Define font family
 class FontFamily {
-  static final sen = 'Sen';
+  static String sen = 'Sen';
 }
