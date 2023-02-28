@@ -12,6 +12,7 @@ import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
 import 'package:flutter_application_1/packages/randoms.dart';
+import 'package:flutter_application_1/screens/control_screen.dart';
 
 const int NUMBER_OF_SLIDER = 10;
 
@@ -214,7 +215,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.symmetric(vertical: 40),
                 child: AppButton(text: 'Favorites ', onTap: () {}),
               ),
-              AppButton(text: 'Your control ', onTap: () {})
+              AppButton(
+                  text: 'Your control ',
+                  onTap: () {
+                    print('ahihi');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ControllScreen()));
+                  })
             ],
           ),
         ),

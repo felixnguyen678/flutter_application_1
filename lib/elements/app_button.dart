@@ -12,23 +12,23 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-            color: Colors.black38,
-            offset: Offset(2, 3),
-            blurRadius: 6
-          )
-          ]),
-      child: Text(
-        text,
-        style: AppStyles.h4.copyWith(color: AppColors.textColor),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black38, offset: Offset(2, 3), blurRadius: 6)
+            ]),
+        child: Text(
+          text,
+          style: AppStyles.h4.copyWith(color: AppColors.textColor),
+        ),
       ),
     );
   }
