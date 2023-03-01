@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -25,8 +27,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  late int _currentIndex = 0;
   late PageController _pageController;
+  late int _refreshingCount = 0;
 
   late List<EnglishToday> _words = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -40,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getEnglishToday() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int len = await prefs.getInt(SharedKeys.counter) ?? AppConfig.defaultNumberOfSlider;
+    int len = await prefs.getInt(SharedKeys.counter) ??
+        AppConfig.defaultNumberOfSlider;
     print(len);
     List<String> newList = [];
     List<int> rans = randomFixedList(len: len, max: nouns.length);
@@ -56,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _words = newWords;
     });
-    print(newWords);
   }
 
   getQuote(String noun) {
@@ -106,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: _words.isEmpty
                   ? null
                   : PageView.builder(
+                      key: Key(_refreshingCount.toString()),
                       controller: _pageController,
                       onPageChanged: (value) {
                         setState(() {
@@ -142,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  child: Image.asset(AppAssets.heart),
                                   alignment: Alignment.centerRight,
+                                  child: Image.asset(AppAssets.heart),
                                 ),
                                 RichText(
                                   maxLines: 1,
@@ -209,6 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
           getEnglishToday();
           setState(() {
             _currentIndex = 0;
+            _refreshingCount += 1;
           });
         },
         child: Image.asset(AppAssets.exchange),
