@@ -1,3 +1,3 @@
 class AppConfig {
-  static int defaultNumberOfSlider = 3;
+  static int defaultNumberOfSlider = 5;
 }

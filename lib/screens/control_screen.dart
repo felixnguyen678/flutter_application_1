@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/app_assets.dart';
 import 'package:flutter_application_1/constants/app_colors.dart';
+import 'package:flutter_application_1/constants/app_config.dart';
 import 'package:flutter_application_1/constants/app_styles.dart';
 import 'package:flutter_application_1/constants/shared_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ class ControllScreen extends StatefulWidget {
 }
 
 class _ControllScreenState extends State<ControllScreen> {
-  double _sliderValue = 5;
+  double _sliderValue = AppConfig.defaultNumberOfSlider.toDouble();
   late SharedPreferences prefs;
 
   @override
@@ -25,7 +26,8 @@ class _ControllScreenState extends State<ControllScreen> {
 
   initDefaultValue() async {
     prefs = await SharedPreferences.getInstance();
-    int value = prefs.getInt(SharedKeys.counter) ?? 5;
+    int value =
+        prefs.getInt(SharedKeys.counter) ?? AppConfig.defaultNumberOfSlider;
     setState(() {
       _sliderValue = value.toDouble();
     });

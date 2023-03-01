@@ -181,32 +181,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Container(
                                     padding: const EdgeInsets.only(top: 32),
-                                    child: AutoSizeText('"$quote"',
-                                        style: AppStyles.h4.copyWith(
-                                            letterSpacing: 1,
-                                            color: AppColors.textColor),
-                                            maxFontSize: 24,))
+                                    child: AutoSizeText(
+                                      '"$quote"',
+                                      style: AppStyles.h4.copyWith(
+                                          letterSpacing: 1,
+                                          color: AppColors.textColor),
+                                      maxFontSize: 24,
+                                    ))
                               ]),
                         );
                       })),
-          Container(
-              height: 20,
-              padding: EdgeInsets.only(
-                left: 12,
-                right: size.width / 5,
-              ),
-              margin: const EdgeInsets.only(top: 12),
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _words.isEmpty
-                    ? AppConfig.defaultNumberOfSlider
-                    : _words.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return SliderIndicator(
-                      isActive: index == _currentIndex, size: size);
-                },
-              ))
+          buildBottom(size),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -250,5 +235,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildBottom(size) {
+    if (_currentIndex < AppConfig.defaultNumberOfSlider) {
+      return Container(
+          height: 20,
+          padding: EdgeInsets.only(
+            left: 12,
+            right: size.width / 5,
+          ),
+          margin: const EdgeInsets.only(top: 12),
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: AppConfig.defaultNumberOfSlider,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return SliderIndicator(
+                  isActive: index == _currentIndex, size: size);
+            },
+          ));
+    }
+    return buildShowMore();
+  }
+
+  Widget buildShowMore() {
+    return TextButton(
+        onPressed: () {},
+        style: ButtonStyle(
+          textStyle: MaterialStateProperty.all<TextStyle>(
+            TextStyle(decoration: TextDecoration.underline),
+          ),
+        ),
+        child: Text(
+          'Show more',
+          style: AppStyles.h4.copyWith(color: AppColors.textColor),
+        ));
   }
 }
