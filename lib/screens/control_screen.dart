@@ -33,6 +33,7 @@ class _ControllScreenState extends State<ControllScreen> {
       body: Container(
         width: double.infinity,
         child: Column(children: [
+          Spacer(),
           Text(
             'How much a number word at once',
             style: AppStyles.h4.copyWith(
@@ -40,11 +41,12 @@ class _ControllScreenState extends State<ControllScreen> {
               fontSize: 18,
             ),
           ),
+          Spacer(),
           Text(
             '${sliderValue.toInt()}',
             style: AppStyles.h1.copyWith(
               fontSize: 150,
-              color: AppColors.blackGrey,
+              color: AppColors.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -53,20 +55,23 @@ class _ControllScreenState extends State<ControllScreen> {
               min: 5,
               max: 100,
               divisions: 100,
+              activeColor: AppColors.primaryColor,
               onChanged: (value) {
                 setState(() {
                   sliderValue = value;
                 });
               }),
-              Text(
+          Text(
             'Slide to change',
             style: AppStyles.h1.copyWith(
               fontSize: 15,
               color: AppColors.blackGrey,
               fontWeight: FontWeight.bold,
-              
             ),
           ),
+          Spacer(),
+          Spacer(),
+          Spacer(),
         ]),
       ),
     );
