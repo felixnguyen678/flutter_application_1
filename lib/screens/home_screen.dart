@@ -4,8 +4,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/app_assets.dart';
 import 'package:flutter_application_1/constants/app_colors.dart';
+import 'package:flutter_application_1/constants/app_config.dart';
 import 'package:flutter_application_1/constants/app_fonts.dart';
 import 'package:flutter_application_1/constants/app_styles.dart';
+import 'package:flutter_application_1/constants/shared_keys.dart';
 import 'package:flutter_application_1/elements/app_button.dart';
 import 'package:flutter_application_1/elements/slider_indicator.dart';
 import 'package:flutter_application_1/models/english_today.dart';
@@ -13,8 +15,7 @@ import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
 import 'package:flutter_application_1/packages/randoms.dart';
 import 'package:flutter_application_1/screens/control_screen.dart';
-
-const int NUMBER_OF_SLIDER = 10;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   late PageController _pageController;
 
-  List<EnglishToday> words = [];
+  late List<EnglishToday> _words = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,18 +38,25 @@ class _HomeScreenState extends State<HomeScreen> {
     getEnglishToday();
   }
 
-  getEnglishToday() {
+  getEnglishToday() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int len = await prefs.getInt(SharedKeys.counter) ?? AppConfig.defaultNumberOfSlider;
+    print(len);
     List<String> newList = [];
-    List<int> rans = randomFixedList(len: NUMBER_OF_SLIDER, max: nouns.length);
+    List<int> rans = randomFixedList(len: len, max: nouns.length);
     rans.forEach((value) {
       newList.add(nouns[value]);
     });
 
-    words = newList.map((e) {
+    List<EnglishToday> newWords = newList.map((e) {
       Quote? quote = getQuote(e);
-      print(quote?.content);
       return EnglishToday(noun: e, quote: quote?.content, id: quote?.id);
     }).toList();
+
+    setState(() {
+      _words = newWords;
+    });
+    print(newWords);
   }
 
   getQuote(String noun) {
@@ -95,84 +103,87 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(
               height: size.height * 3 / 5,
-              child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (value) {
-                    setState(() {
-                      _currentIndex = value;
-                    });
-                  },
-                  itemCount: NUMBER_OF_SLIDER,
-                  itemBuilder: (context, index) {
-                    String firstLetter = words[index].noun != null
-                        ? words[index].noun!.substring(0, 1)
-                        : '';
-                    String remainedLetters = words[index].noun != null
-                        ? words[index].noun!.substring(1)
-                        : '';
+              child: _words.isEmpty
+                  ? null
+                  : PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (value) {
+                        setState(() {
+                          _currentIndex = value;
+                        });
+                      },
+                      itemCount: _words.length,
+                      itemBuilder: (context, index) {
+                        String firstLetter = _words[index].noun != null
+                            ? _words[index].noun!.substring(0, 1)
+                            : '';
+                        String remainedLetters = _words[index].noun != null
+                            ? _words[index].noun!.substring(1)
+                            : '';
 
-                    String? quote = words[index].quote;
-                    return Container(
-                      decoration: const BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(24)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black38,
-                                offset: Offset(3, 3),
-                                blurRadius: 6)
-                          ]),
-                      padding: const EdgeInsets.all(16),
-                      margin: EdgeInsets.only(
-                          left: index > 0 ? 8 : 0,
-                          right: index < NUMBER_OF_SLIDER - 1 ? 8 : 0,
-                          bottom: 8),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Image.asset(AppAssets.heart),
-                              alignment: Alignment.centerRight,
-                            ),
-                            RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                  text: firstLetter,
-                                  children: [
-                                    TextSpan(
-                                        text: remainedLetters,
-                                        style: TextStyle(
-                                            fontFamily: FontFamily.sen,
-                                            fontSize: 56,
-                                            fontWeight: FontWeight.bold,
-                                            shadows: const [
-                                              BoxShadow(
-                                                  blurRadius: 6,
-                                                  color: Colors.black38,
-                                                  offset: Offset(3, 6))
-                                            ]))
-                                  ],
-                                  style: TextStyle(
-                                      fontFamily: FontFamily.sen,
-                                      fontSize: 89,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: const [
-                                        BoxShadow(
-                                            blurRadius: 6,
-                                            color: Colors.black38,
-                                            offset: Offset(3, 6))
-                                      ])),
-                            ),
-                            Container(
-                                padding: const EdgeInsets.only(top: 32),
-                                child: Text('"$quote"',
-                                    style: AppStyles.h4.copyWith(
-                                        letterSpacing: 1,
-                                        color: AppColors.textColor)))
-                          ]),
-                    );
-                  })),
+                        String? quote = _words[index].quote;
+                        return Container(
+                          decoration: const BoxDecoration(
+                              color: AppColors.primaryColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black38,
+                                    offset: Offset(3, 3),
+                                    blurRadius: 6)
+                              ]),
+                          padding: const EdgeInsets.all(16),
+                          margin: EdgeInsets.only(
+                              left: index > 0 ? 8 : 0,
+                              right: index < _words.length - 1 ? 8 : 0,
+                              bottom: 8),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Image.asset(AppAssets.heart),
+                                  alignment: Alignment.centerRight,
+                                ),
+                                RichText(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  text: TextSpan(
+                                      text: firstLetter,
+                                      children: [
+                                        TextSpan(
+                                            text: remainedLetters,
+                                            style: TextStyle(
+                                                fontFamily: FontFamily.sen,
+                                                fontSize: 56,
+                                                fontWeight: FontWeight.bold,
+                                                shadows: const [
+                                                  BoxShadow(
+                                                      blurRadius: 6,
+                                                      color: Colors.black38,
+                                                      offset: Offset(3, 6))
+                                                ]))
+                                      ],
+                                      style: TextStyle(
+                                          fontFamily: FontFamily.sen,
+                                          fontSize: 89,
+                                          fontWeight: FontWeight.bold,
+                                          shadows: const [
+                                            BoxShadow(
+                                                blurRadius: 6,
+                                                color: Colors.black38,
+                                                offset: Offset(3, 6))
+                                          ])),
+                                ),
+                                Container(
+                                    padding: const EdgeInsets.only(top: 32),
+                                    child: Text('"$quote"',
+                                        style: AppStyles.h4.copyWith(
+                                            letterSpacing: 1,
+                                            color: AppColors.textColor)))
+                              ]),
+                        );
+                      })),
           Container(
               height: 20,
               padding: EdgeInsets.only(
@@ -182,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.only(top: 12),
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: NUMBER_OF_SLIDER,
+                itemCount: _words.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return SliderIndicator(
@@ -194,7 +205,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          getEnglishToday();
+          setState(() {
+            _currentIndex = 0;
+          });
+        },
         child: Image.asset(AppAssets.exchange),
         backgroundColor: AppColors.primaryColor,
       ),
