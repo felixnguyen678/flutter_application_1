@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -180,10 +181,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Container(
                                     padding: const EdgeInsets.only(top: 32),
-                                    child: Text('"$quote"',
+                                    child: AutoSizeText('"$quote"',
                                         style: AppStyles.h4.copyWith(
                                             letterSpacing: 1,
-                                            color: AppColors.textColor)))
+                                            color: AppColors.textColor),
+                                            maxFontSize: 24,))
                               ]),
                         );
                       })),
