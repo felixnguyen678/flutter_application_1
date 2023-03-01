@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int len = await prefs.getInt(SharedKeys.counter) ??
         AppConfig.defaultNumberOfSlider;
-    print(len);
     List<String> newList = [];
     List<int> rans = randomFixedList(len: len, max: nouns.length);
     rans.forEach((value) {
@@ -197,15 +196,15 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.only(top: 12),
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: _words.length,
+                itemCount: _words.isEmpty
+                    ? AppConfig.defaultNumberOfSlider
+                    : _words.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return SliderIndicator(
                       isActive: index == _currentIndex, size: size);
                 },
-              )
-              // Container(color: Colors.red,)
-              )
+              ))
         ]),
       ),
       floatingActionButton: FloatingActionButton(
