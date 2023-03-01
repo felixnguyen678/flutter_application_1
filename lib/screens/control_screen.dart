@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/app_assets.dart';
 import 'package:flutter_application_1/constants/app_colors.dart';
 import 'package:flutter_application_1/constants/app_styles.dart';
+import 'package:flutter_application_1/constants/shared_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllScreen extends StatefulWidget {
   const ControllScreen({super.key});
@@ -12,7 +14,7 @@ class ControllScreen extends StatefulWidget {
 }
 
 class _ControllScreenState extends State<ControllScreen> {
-  double sliderValue = 5;
+  double _sliderValue = 5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,9 @@ class _ControllScreenState extends State<ControllScreen> {
             style: AppStyles.h3
                 .copyWith(color: AppColors.textColor, fontSize: 36)),
         leading: InkWell(
-          onTap: () {
+          onTap: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setInt(SharedKeys.counter, _sliderValue.toInt());
             Navigator.pop(context);
           },
           child: Image.asset(AppAssets.leftArrow),
@@ -43,7 +47,7 @@ class _ControllScreenState extends State<ControllScreen> {
           ),
           Spacer(),
           Text(
-            '${sliderValue.toInt()}',
+            '${_sliderValue.toInt()}',
             style: AppStyles.h1.copyWith(
               fontSize: 150,
               color: AppColors.primaryColor,
@@ -51,14 +55,14 @@ class _ControllScreenState extends State<ControllScreen> {
             ),
           ),
           Slider(
-              value: sliderValue,
+              value: _sliderValue,
               min: 5,
               max: 100,
               divisions: 100,
               activeColor: AppColors.primaryColor,
               onChanged: (value) {
                 setState(() {
-                  sliderValue = value;
+                  _sliderValue = value;
                 });
               }),
           Text(
