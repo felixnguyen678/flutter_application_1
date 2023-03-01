@@ -32,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     _pageController = PageController(viewportFraction: .85);
     getEnglishToday();
-    super.initState();
   }
 
   getEnglishToday() {
@@ -218,7 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
               AppButton(
                   text: 'Your control ',
                   onTap: () {
-                    print('ahihi');
                     Navigator.push(
                         context,
                         MaterialPageRoute(

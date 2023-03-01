@@ -15,6 +15,22 @@ class ControllScreen extends StatefulWidget {
 
 class _ControllScreenState extends State<ControllScreen> {
   double _sliderValue = 5;
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    initDefaultValue();
+  }
+
+  initDefaultValue() async {
+    prefs = await SharedPreferences.getInstance();
+    int value = prefs.getInt(SharedKeys.counter) ?? 5;
+    setState(() {
+      _sliderValue = value.toDouble();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
