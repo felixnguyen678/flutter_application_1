@@ -13,7 +13,7 @@ class SliderIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(microseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInToLinear,
       width: isActive ? size.width / 5 : 24,
       height: 5,
