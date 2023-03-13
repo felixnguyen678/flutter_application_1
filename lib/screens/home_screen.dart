@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ),
           SizedBox(
-              height: size.height * 3 / 5,
+              height: size.height * 5 / 9,
               child: _words.isEmpty
                   ? null
                   : PageView.builder(
@@ -265,16 +265,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildShowMore() {
-    return TextButton(
-        onPressed: () {},
-        style: ButtonStyle(
-          textStyle: MaterialStateProperty.all<TextStyle>(
-            TextStyle(decoration: TextDecoration.underline),
-          ),
+    return InkWell(
+      child: Container(
+        height: 50,
+        width: 200,
+        margin: const EdgeInsets.only(top: 25),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black38, offset: Offset(2, 3), blurRadius: 6)
+          ],
+          color: Colors.white,
         ),
-        child: Text(
+        child: Center(child: Text(
           'Show more',
           style: AppStyles.h4.copyWith(color: AppColors.textColor),
-        ));
+        ),)
+      ),
+    );
   }
 }
