@@ -7,9 +7,24 @@ import 'package:flutter_application_1/constants/app_colors.dart';
 import 'package:flutter_application_1/constants/app_styles.dart';
 import 'package:flutter_application_1/models/english_today.dart';
 
-class AllWordsScreen extends StatelessWidget {
+class AllWordsScreen extends StatefulWidget {
   final List<EnglishToday> words;
-  const AllWordsScreen({super.key, required this.words});
+  final void Function(int) toggleFavorite;
+  const AllWordsScreen(
+      {super.key, required this.words, required this.toggleFavorite});
+
+  @override
+  State<AllWordsScreen> createState() => _AllWordsScreenState();
+}
+
+class _AllWordsScreenState extends State<AllWordsScreen> {
+  late List<EnglishToday> _words;
+
+  @override
+  void initState() {
+    super.initState();
+    _words = widget.words;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +44,31 @@ class AllWordsScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-          itemCount: words.length,
+          itemCount: _words.length,
           itemBuilder: ((context, index) => InkWell(
-            splashColor: Colors.black38,
-            child: ListTile(
-                  title: Text(words[index].noun!),
-                  subtitle: Text(words[index].quote!),
+                splashColor: Colors.black38,
+                onTap: () {
+                  setState(() {
+                    _words[index].isFavorite = !_words[index].isFavorite;
+                  });
+                  widget.toggleFavorite(index);
+                  print('ahihi');
+                },
+                child: ListTile(
+                  title: Text(_words[index].noun!),
+                  subtitle: Text(_words[index].quote!),
                   contentPadding: const EdgeInsets.all(15),
                   tileColor: index % 2 == 0
                       ? AppColors.primaryColor
                       : AppColors.subPrimaryColor,
                   leading: Icon(
                     Icons.favorite,
-                    color: words[index].isFavorite == true
+                    color: _words[index].isFavorite == true
                         ? Colors.red
                         : Colors.white,
                   ),
                 ),
-          ))),
+              ))),
     );
   }
 }

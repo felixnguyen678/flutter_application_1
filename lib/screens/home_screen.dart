@@ -36,6 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<EnglishToday> _words = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  void _toggleFavorite(int index) {
+    setState(() {
+      _words[index].isFavorite = !_words[index].isFavorite;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,12 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
     Quote? quote;
     quote = Quotes().getByWord(noun);
     return quote;
-  }
-
-  void toggleFavorite(int index) {
-    setState(() {
-      _words[index].isFavorite = !_words[index].isFavorite;
-    });
   }
 
   @override
@@ -151,10 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: InkWell(
                                 splashColor: Colors.black38,
                                 onDoubleTap: () {
-                                  setState(() {
-                                    _words[index].isFavorite =
-                                        !_words[index].isFavorite;
-                                  });
+                                  _toggleFavorite(index);
                                 },
                                 borderRadius: BorderRadius.circular(24),
                                 child: Container(
@@ -317,8 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (_) => AllWordsScreen(
-                          words: this._words,
-                        )));
+                        words: this._words, toggleFavorite: _toggleFavorite)));
           },
           borderRadius: BorderRadius.circular(24),
           child: Container(
