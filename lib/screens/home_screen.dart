@@ -130,71 +130,91 @@ class _HomeScreenState extends State<HomeScreen> {
                         String remainedLetters = _words[index].noun != null
                             ? _words[index].noun!.substring(1)
                             : '';
-
+                        bool isLiked = _words[index].isFavorite;
                         String? quote = _words[index].quote;
                         return Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(24)),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black38,
-                                    offset: Offset(3, 3),
-                                    blurRadius: 6)
-                              ]),
-                          padding: const EdgeInsets.all(16),
-                          margin: EdgeInsets.only(
-                              left: index > 0 ? 8 : 0,
-                              right: index < _words.length - 1 ? 8 : 0,
-                              bottom: 8),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Image.asset(AppAssets.heart),
-                                ),
-                                RichText(
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                      text: firstLetter,
-                                      children: [
-                                        TextSpan(
-                                            text: remainedLetters,
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          child: Material(
+                            elevation: 4,
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(24),
+                            child: InkWell(
+                              splashColor: Colors.black38,
+                              onDoubleTap: () {
+                                setState(() {
+                                  _words[index].isFavorite =
+                                      !_words[index].isFavorite;
+                                });
+                              },
+                              borderRadius: BorderRadius.circular(24),
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                margin: EdgeInsets.only(
+                                    left: index > 0 ? 8 : 0,
+                                    right: index < _words.length - 1 ? 8 : 0,
+                                    bottom: 8),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Image.asset(
+                                          AppAssets.heart,
+                                          color: isLiked
+                                              ? Colors.red
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                      RichText(
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        text: TextSpan(
+                                            text: firstLetter,
+                                            children: [
+                                              TextSpan(
+                                                  text: remainedLetters,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          FontFamily.sen,
+                                                      fontSize: 56,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      shadows: const [
+                                                        BoxShadow(
+                                                            blurRadius: 6,
+                                                            color:
+                                                                Colors.black38,
+                                                            offset:
+                                                                Offset(3, 6))
+                                                      ]))
+                                            ],
                                             style: TextStyle(
                                                 fontFamily: FontFamily.sen,
-                                                fontSize: 56,
+                                                fontSize: 89,
                                                 fontWeight: FontWeight.bold,
                                                 shadows: const [
                                                   BoxShadow(
                                                       blurRadius: 6,
                                                       color: Colors.black38,
                                                       offset: Offset(3, 6))
-                                                ]))
-                                      ],
-                                      style: TextStyle(
-                                          fontFamily: FontFamily.sen,
-                                          fontSize: 89,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: const [
-                                            BoxShadow(
-                                                blurRadius: 6,
-                                                color: Colors.black38,
-                                                offset: Offset(3, 6))
-                                          ])),
-                                ),
-                                Container(
-                                    padding: const EdgeInsets.only(top: 32),
-                                    child: AutoSizeText(
-                                      '"$quote"',
-                                      style: AppStyles.h4.copyWith(
-                                          letterSpacing: 1,
-                                          color: AppColors.textColor),
-                                      maxFontSize: 24,
-                                    ))
-                              ]),
+                                                ])),
+                                      ),
+                                      Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 32),
+                                          child: AutoSizeText(
+                                            '"$quote"',
+                                            style: AppStyles.h4.copyWith(
+                                                letterSpacing: 1,
+                                                color: AppColors.textColor),
+                                            maxFontSize: 24,
+                                          ))
+                                    ]),
+                              ),
+                            ),
+                          ),
                         );
                       })),
           buildBottom(size),

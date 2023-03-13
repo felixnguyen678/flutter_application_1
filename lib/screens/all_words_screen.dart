@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -28,7 +29,7 @@ class AllWordsScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           right: 15,
           left: 15,
           bottom: 15,
@@ -40,10 +41,19 @@ class AllWordsScreen extends StatelessWidget {
           children: words
               .map((w) => Container(
                 alignment: Alignment.center,
-                    child: Text(w.noun ?? ''),
                     decoration: BoxDecoration(
                         color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(12)),
+                    child: AutoSizeText(
+                      w.noun ?? '',
+                      style: AppStyles.h3.copyWith(shadows: [
+                        const BoxShadow(
+                          color: Colors.black38,
+                          offset: Offset(3,3),
+                          blurRadius: 6,
+                        )
+                      ]),
+                      ),
                   ))
               .toList(),
         ),
