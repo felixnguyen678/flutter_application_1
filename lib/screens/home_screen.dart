@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getEnglishToday();
   }
 
-  getEnglishToday() async {
+  void getEnglishToday() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int len = await prefs.getInt(SharedKeys.counter) ??
         AppConfig.defaultNumberOfSlider;
@@ -72,6 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Quote? quote;
     quote = Quotes().getByWord(noun);
     return quote;
+  }
+
+  void toggleFavorite(int index) {
+    setState(() {
+      _words[index].isFavorite = !_words[index].isFavorite;
+    });
   }
 
   @override
@@ -298,44 +304,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildShowMore() {
-   return Container(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
-                            child: Material(
-                              elevation: 4,
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(24),
-                              child: InkWell(
-                                splashColor: Colors.black38,
-                                onTap: () {
-                                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => AllWordsScreen(
-                        words: this._words,
-                      )));
-                                },
-                                borderRadius: BorderRadius.circular(24),
-                                child: Container(
-                                  padding: const EdgeInsets.all(16),
-                                  margin: const EdgeInsets.only(
-                                      left: 8,
-                                      right: 8,
-                                      bottom: 8),
-                                  child: Center(
-                                    child: Text('Show more ...', style: AppStyles.h2.copyWith(
-                                      shadows: const [
-                                        BoxShadow(
-                                        color: Colors.black38,
-                                        offset: Offset(3,3),
-                                        blurRadius: 6,
-                                      )
-                                      ]
-                                    )),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ); 
+    return Container(
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: Material(
+        elevation: 4,
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(24),
+        child: InkWell(
+          splashColor: Colors.black38,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AllWordsScreen(
+                          words: this._words,
+                        )));
+          },
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+            child: Center(
+              child: Text('Show more ...',
+                  style: AppStyles.h3.copyWith(shadows: const [
+                    BoxShadow(
+                      color: Colors.black38,
+                      offset: Offset(3, 6),
+                      blurRadius: 6,
+                    )
+                  ])),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

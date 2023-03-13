@@ -18,7 +18,7 @@ class AllWordsScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.secondColor,
-        title: Text('All words',
+        title: Text('English Today',
             style: AppStyles.h3
                 .copyWith(color: AppColors.textColor, fontSize: 36)),
         leading: InkWell(
@@ -28,36 +28,25 @@ class AllWordsScreen extends StatelessWidget {
           child: Image.asset(AppAssets.leftArrow),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(
-          right: 15,
-          left: 15,
-          bottom: 15,
-        ),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          children: words
-              .map((w) => Container(
-                alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: AutoSizeText(
-                      w.noun ?? '',
-                      style: AppStyles.h3.copyWith(shadows: [
-                        const BoxShadow(
-                          color: Colors.black38,
-                          offset: Offset(3,3),
-                          blurRadius: 6,
-                        )
-                      ]),
-                      ),
-                  ))
-              .toList(),
-        ),
-      ),
+      body: ListView.builder(
+          itemCount: words.length,
+          itemBuilder: ((context, index) => InkWell(
+            splashColor: Colors.black38,
+            child: ListTile(
+                  title: Text(words[index].noun!),
+                  subtitle: Text(words[index].quote!),
+                  contentPadding: const EdgeInsets.all(15),
+                  tileColor: index % 2 == 0
+                      ? AppColors.primaryColor
+                      : AppColors.subPrimaryColor,
+                  leading: Icon(
+                    Icons.favorite,
+                    color: words[index].isFavorite == true
+                        ? Colors.red
+                        : Colors.white,
+                  ),
+                ),
+          ))),
     );
   }
 }
