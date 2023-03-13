@@ -1,16 +1,6 @@
-# flutter_application_1
+# English Card App
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![simulator_screenshot_A3E0C3B9-B93C-4AC4-9A2F-6109FD6078BB](https://user-images.githubusercontent.com/39431852/224685439-b167170b-ce60-4e67-8cc5-7a89326d4956.png)
+![simulator_screenshot_954A46C1-E661-4C4E-806B-771AA5CB2B25](https://user-images.githubusercontent.com/39431852/224685334-3d047b57-0053-4e30-bf9d-fc31c5522105.png)
+![simulator_screenshot_093A9490-74F5-4FDD-919B-BD322A79DF3F](https://user-images.githubusercontent.com/39431852/224685501-219bb458-cf6e-4acf-8e47-f036fcc8b54b.png)
+![simulator_screenshot_5ED28CA1-3C31-4400-8B94-52B02C90AC07](https://user-images.githubusercontent.com/39431852/224685560-723e5d4e-c0c1-47ce-8fe7-f37071c25809.png)
