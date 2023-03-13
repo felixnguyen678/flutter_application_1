@@ -17,6 +17,7 @@ import 'package:flutter_application_1/models/english_today.dart';
 import 'package:flutter_application_1/packages/quote/qoute_model.dart';
 import 'package:flutter_application_1/packages/quote/quote.dart';
 import 'package:flutter_application_1/packages/randoms.dart';
+import 'package:flutter_application_1/screens/all_words_screen.dart';
 import 'package:flutter_application_1/screens/control_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -275,7 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: InkWell(
         splashColor: AppColors.primaryColor,
         onTap: () {
-          print('ahihi');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => AllWordsScreen(
+                        words: this._words,
+                      )));
         },
         borderRadius: borderRadius,
         child: Container(
