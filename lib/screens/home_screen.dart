@@ -261,27 +261,32 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ));
     }
-    return buildShowMore();
+    return Container(
+      margin: EdgeInsets.all(16.0),
+      child: buildShowMore(),
+    );
   }
 
   Widget buildShowMore() {
-    return InkWell(
-      child: Container(
-        height: 50,
-        width: 200,
-        margin: const EdgeInsets.only(top: 25),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black38, offset: Offset(2, 3), blurRadius: 6)
-          ],
-          color: Colors.white,
-        ),
-        child: Center(child: Text(
-          'Show more',
-          style: AppStyles.h4.copyWith(color: AppColors.textColor),
-        ),)
+    const borderRadius = BorderRadius.all(Radius.circular(25));
+    return Material(
+      borderRadius: borderRadius,
+      elevation: 5,
+      child: InkWell(
+        splashColor: AppColors.primaryColor,
+        onTap: () {
+          print('ahihi');
+        },
+        borderRadius: borderRadius,
+        child: Container(
+            height: 50,
+            width: 200,
+            child: Center(
+              child: Text(
+                'Show more',
+                style: AppStyles.h4.copyWith(color: AppColors.textColor),
+              ),
+            )),
       ),
     );
   }
