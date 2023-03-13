@@ -54,6 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<EnglishToday> newWords = newList.map((e) {
       Quote? quote = getQuote(e);
+      while (quote?.content == null) {
+        List<int> newRans = randomFixedList(len: 1, max: 1);
+        e = nouns[newRans[0]];
+        quote = getQuote(e);
+      }
       return EnglishToday(noun: e, quote: quote?.content, id: quote?.id);
     }).toList();
 
