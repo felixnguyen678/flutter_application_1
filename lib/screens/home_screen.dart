@@ -122,100 +122,106 @@ class _HomeScreenState extends State<HomeScreen> {
                           _currentIndex = value;
                         });
                       },
-                      itemCount: _words.length,
+                      itemCount: _words.length > AppConfig.defaultNumberOfSlider
+                          ? AppConfig.defaultNumberOfSlider + 1
+                          : _words.length,
                       itemBuilder: (context, index) {
-                        String firstLetter = _words[index].noun != null
-                            ? _words[index].noun!.substring(0, 1)
-                            : '';
-                        String remainedLetters = _words[index].noun != null
-                            ? _words[index].noun!.substring(1)
-                            : '';
-                        bool isLiked = _words[index].isFavorite;
-                        String? quote = _words[index].quote;
-                        return Container(
-                          padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                          child: Material(
-                            elevation: 4,
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(24),
-                            child: InkWell(
-                              splashColor: Colors.black38,
-                              onDoubleTap: () {
-                                setState(() {
-                                  _words[index].isFavorite =
-                                      !_words[index].isFavorite;
-                                });
-                              },
+                        if (index < AppConfig.defaultNumberOfSlider) {
+                          String firstLetter = _words[index].noun != null
+                              ? _words[index].noun!.substring(0, 1)
+                              : '';
+                          String remainedLetters = _words[index].noun != null
+                              ? _words[index].noun!.substring(1)
+                              : '';
+                          bool isLiked = _words[index].isFavorite;
+                          String? quote = _words[index].quote;
+                          return Container(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Material(
+                              elevation: 4,
+                              color: AppColors.primaryColor,
                               borderRadius: BorderRadius.circular(24),
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                margin: EdgeInsets.only(
-                                    left: index > 0 ? 8 : 0,
-                                    right: index < _words.length - 1 ? 8 : 0,
-                                    bottom: 8),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.centerRight,
-                                        child: Image.asset(
-                                          AppAssets.heart,
-                                          color: isLiked
-                                              ? Colors.red
-                                              : Colors.white,
+                              child: InkWell(
+                                splashColor: Colors.black38,
+                                onDoubleTap: () {
+                                  setState(() {
+                                    _words[index].isFavorite =
+                                        !_words[index].isFavorite;
+                                  });
+                                },
+                                borderRadius: BorderRadius.circular(24),
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  margin: EdgeInsets.only(
+                                      left: index > 0 ? 8 : 0,
+                                      right: index < _words.length - 1 ? 8 : 0,
+                                      bottom: 8),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          child: Image.asset(
+                                            AppAssets.heart,
+                                            color: isLiked
+                                                ? Colors.red
+                                                : Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        text: TextSpan(
-                                            text: firstLetter,
-                                            children: [
-                                              TextSpan(
-                                                  text: remainedLetters,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          FontFamily.sen,
-                                                      fontSize: 56,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      shadows: const [
-                                                        BoxShadow(
-                                                            blurRadius: 6,
-                                                            color:
-                                                                Colors.black38,
-                                                            offset:
-                                                                Offset(3, 6))
-                                                      ]))
-                                            ],
-                                            style: TextStyle(
-                                                fontFamily: FontFamily.sen,
-                                                fontSize: 89,
-                                                fontWeight: FontWeight.bold,
-                                                shadows: const [
-                                                  BoxShadow(
-                                                      blurRadius: 6,
-                                                      color: Colors.black38,
-                                                      offset: Offset(3, 6))
-                                                ])),
-                                      ),
-                                      Container(
-                                          padding:
-                                              const EdgeInsets.only(top: 32),
-                                          child: AutoSizeText(
-                                            '"$quote"',
-                                            style: AppStyles.h4.copyWith(
-                                                letterSpacing: 1,
-                                                color: AppColors.textColor),
-                                            maxFontSize: 24,
-                                          ))
-                                    ]),
+                                        RichText(
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          text: TextSpan(
+                                              text: firstLetter,
+                                              children: [
+                                                TextSpan(
+                                                    text: remainedLetters,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            FontFamily.sen,
+                                                        fontSize: 56,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        shadows: const [
+                                                          BoxShadow(
+                                                              blurRadius: 6,
+                                                              color: Colors
+                                                                  .black38,
+                                                              offset:
+                                                                  Offset(3, 6))
+                                                        ]))
+                                              ],
+                                              style: TextStyle(
+                                                  fontFamily: FontFamily.sen,
+                                                  fontSize: 89,
+                                                  fontWeight: FontWeight.bold,
+                                                  shadows: const [
+                                                    BoxShadow(
+                                                        blurRadius: 6,
+                                                        color: Colors.black38,
+                                                        offset: Offset(3, 6))
+                                                  ])),
+                                        ),
+                                        Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 32),
+                                            child: AutoSizeText(
+                                              '"$quote"',
+                                              style: AppStyles.h4.copyWith(
+                                                  letterSpacing: 1,
+                                                  color: AppColors.textColor),
+                                              maxFontSize: 24,
+                                            ))
+                                      ]),
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+
+                        return buildShowMore();
                       })),
           buildBottom(size),
         ]),
@@ -264,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildBottom(size) {
-    if (_currentIndex < AppConfig.defaultNumberOfSlider) {
+    if (_currentIndex < AppConfig.defaultNumberOfSlider + 1) {
       return Container(
           height: 20,
           padding: EdgeInsets.only(
@@ -278,7 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return SliderIndicator(
-                  isActive: index == _currentIndex, size: size);
+                  isActive: index == _currentIndex ||
+                      (index == AppConfig.defaultNumberOfSlider - 1 &&
+                          _currentIndex == AppConfig.defaultNumberOfSlider),
+                  size: size);
             },
           ));
     }
@@ -289,31 +298,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildShowMore() {
-    const borderRadius = BorderRadius.all(Radius.circular(25));
-    return Material(
-      borderRadius: borderRadius,
-      elevation: 5,
-      child: InkWell(
-        splashColor: AppColors.primaryColor,
-        onTap: () {
-          Navigator.push(
+   return Container(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Material(
+                              elevation: 4,
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.circular(24),
+                              child: InkWell(
+                                splashColor: Colors.black38,
+                                onTap: () {
+                                  Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (_) => AllWordsScreen(
                         words: this._words,
                       )));
-        },
-        borderRadius: borderRadius,
-        child: Container(
-            height: 50,
-            width: 200,
-            child: Center(
-              child: Text(
-                'Show more',
-                style: AppStyles.h4.copyWith(color: AppColors.textColor),
-              ),
-            )),
-      ),
-    );
+                                },
+                                borderRadius: BorderRadius.circular(24),
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  margin: const EdgeInsets.only(
+                                      left: 8,
+                                      right: 8,
+                                      bottom: 8),
+                                  child: Center(
+                                    child: Text('Show more ...', style: AppStyles.h2.copyWith(
+                                      shadows: const [
+                                        BoxShadow(
+                                        color: Colors.black38,
+                                        offset: Offset(3,3),
+                                        blurRadius: 6,
+                                      )
+                                      ]
+                                    )),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ); 
   }
 }
