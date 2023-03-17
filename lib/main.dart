@@ -28,15 +28,59 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double topHeight = size.height / 5;
     return Scaffold(
-      // body: Container(
-      //   child: Image.asset(AppUI.img_meo),
-      // ),
-      body: Center(child: Text('hello world', 
-      style: GoogleFonts.abel(
-      textStyle: TextStyle(color: Colors.blue, fontSize: 40),
-  ),
-       ))
+      body: Stack(children: [
+        Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Container(
+                      height: topHeight,
+                      color: Colors.blue,
+                    ),
+                    Container(
+                      height: (size.height - topHeight) / 3,
+                      color: Colors.black,
+                    ),
+                    Container(
+                      height: (size.height - topHeight) / 3,
+                      color: Colors.yellow,
+                    ),
+                  ],
+                )),
+            Expanded(
+                flex: 2,
+                child: Container(
+                  color: Colors.pink,
+                  margin: EdgeInsets.only(right: 10),
+                )),
+            Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.pink,
+                )),
+          ],
+        ),
+        Positioned(
+          top: topHeight + (size.height - topHeight) * 4 / 9,
+          left: (size.width / 4) * 3 / 4 ,
+          child: Container(
+            color: Color.fromARGB(55, 70, 19, 16),
+            width: 100,
+            height: 100,
+          ),
+        ),
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Do something when the button is pressed
+        },
+        child: Icon(Icons.home),
+      ),
     );
   }
 }
