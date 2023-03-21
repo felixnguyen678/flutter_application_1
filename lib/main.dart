@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/app_fonts.dart';
 import 'package:flutter_application_1/constants/app_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,35 +36,48 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // body: Container(
-      //   child: Image.asset(AppUI.img_meo),
-      // ),
-      body: CounterContainer(counter: _counter),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _counter++;
-          });
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+    return Provider<Counter>(
+        create: (_) => Counter(),
+        child: Scaffold(
+          body: CounterContainer(),
+          floatingActionButton: Consumer<Counter>(
+            builder: (context, value, child) {
+              return FloatingActionButton(
+                onPressed: () {
+                  value.increase();
+                },
+                child: Icon(Icons.add),
+              );
+            },
+          ),
+        ));
   }
 }
 
 class CounterContainer extends StatelessWidget {
-  final int counter;
-  const CounterContainer({super.key, required this.counter});
+  const CounterContainer({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Consumer<Counter>(builder: (context, value, child) {
+      final counter = value.counter;
+      return Center(
           child: Text(
         '$counter',
         style: GoogleFonts.abel(
           textStyle: TextStyle(color: Colors.blue, fontSize: 40),
         ),
       ));
+    });
+  }
+}
+
+class Counter {
+  int counter = 0;
+
+  void increase() {
+    counter++;
   }
 }
