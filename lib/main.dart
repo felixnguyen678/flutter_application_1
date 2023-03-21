@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<Counter>(
+    return ChangeNotifierProvider<Counter>(
         create: (_) => Counter(),
         child: Scaffold(
           body: CounterContainer(),
@@ -74,10 +74,13 @@ class CounterContainer extends StatelessWidget {
   }
 }
 
-class Counter {
-  int counter = 0;
+class Counter extends ChangeNotifier {
+  int _counter = 0;
+
+  int get counter => _counter;
 
   void increase() {
-    counter++;
+    _counter++;
+    notifyListeners();
   }
 }
