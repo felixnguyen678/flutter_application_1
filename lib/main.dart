@@ -61,8 +61,8 @@ class CounterContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Counter>(builder: (context, value, child) {
-      final counter = value.counter;
+    
+      final counter = context.watch<Counter>().counter;
       return Center(
           child: Text(
         '$counter',
@@ -70,7 +70,6 @@ class CounterContainer extends StatelessWidget {
           textStyle: TextStyle(color: Colors.blue, fontSize: 40),
         ),
       ));
-    });
   }
 }
 
