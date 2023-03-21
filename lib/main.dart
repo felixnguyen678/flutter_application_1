@@ -23,8 +23,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +39,31 @@ class MyHomePage extends StatelessWidget {
       // body: Container(
       //   child: Image.asset(AppUI.img_meo),
       // ),
-      body: Center(child: Text('hello world', 
-      style: GoogleFonts.abel(
-      textStyle: TextStyle(color: Colors.blue, fontSize: 40),
-  ),
-       ))
+      body: CounterContainer(counter: _counter),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _counter++;
+          });
+        },
+        child: Icon(Icons.add),
+      ),
     );
+  }
+}
+
+class CounterContainer extends StatelessWidget {
+  final int counter;
+  const CounterContainer({super.key, required this.counter});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+          child: Text(
+        '$counter',
+        style: GoogleFonts.abel(
+          textStyle: TextStyle(color: Colors.blue, fontSize: 40),
+        ),
+      ));
   }
 }
