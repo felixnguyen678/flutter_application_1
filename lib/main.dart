@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/app_fonts.dart';
 import 'package:flutter_application_1/constants/app_ui.dart';
@@ -31,7 +33,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  StreamController<int> _streamController = StreamController<int>();
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _streamController.stream.listen((count) {
+      setState(() {
+        _counter = count;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamController.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: CounterContainer(counter: _counter),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            _counter++;
-          });
+          _streamController.sink.add(_counter + 1);
         },
         child: Icon(Icons.add),
       ),
@@ -59,11 +76,11 @@ class CounterContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-          child: Text(
-        '$counter',
-        style: GoogleFonts.abel(
-          textStyle: TextStyle(color: Colors.blue, fontSize: 40),
-        ),
-      ));
+        child: Text(
+      '$counter',
+      style: GoogleFonts.abel(
+        textStyle: TextStyle(color: Colors.blue, fontSize: 40),
+      ),
+    ));
   }
 }
